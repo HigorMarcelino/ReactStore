@@ -1,0 +1,28 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    background-color: rgb(218, 232, 252);
+    border: rgb(158, 182, 217) 2px solid;
+    position: relative;
+    height: 60px;
+  }
+  
+  .list {
+    display: flex;
+    list-style: none;
+    align-items: center;
+    font-size: larger;
+  }
+  
+  .item {
+    margin-right: 1em;
+  }
+  
+  .item a {
+    color: #222222;
+    text-decoration: none;
+  }
+  
+  .item a:hover {
+    color: rgb(58, 122, 218);
+  }

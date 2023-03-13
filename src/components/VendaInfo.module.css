@@ -1,0 +1,31 @@
+.cupom_container{
+    font-size: medium;
+    overflow-y: scroll;
+    height: 300px;
+}
+.cupom{
+    margin: 20px auto;
+    width: 80%;
+    border-collapse: collapse;
+    border-bottom: #d3d9df solid 1px;
+    text-align: left;
+}
+.cupom th{
+    border-bottom: #d3d9df solid 1px;
+}
+.end{
+    text-align: end;
+}
+.cupom_container h3{
+    border: 1px solid #d3d9df;
+    border-radius: 15px;
+    width: fit-content;
+    padding: 10px;
+    margin: 30px auto;
+}
+.info{
+    margin: 5px auto;
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+}

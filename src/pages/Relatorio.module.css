@@ -1,0 +1,61 @@
+.table_container{
+    margin: 30px;
+}
+.table_vendas{
+    font-size: large;
+    border-collapse: collapse;
+    width: 40%;
+    margin: 0 auto;
+}
+
+.table_vendas th{
+    text-align: left;
+    border-bottom: #d3d9df solid 1px;
+}
+.table_vendas td{
+    height: 50px;
+    border-bottom: #d3d9df solid 1px;
+}
+.table_vendas .td_cod{
+    width: 70px;
+    text-align: center;
+}
+
+.info{
+    background-color: rgba(255, 255, 255, 0);
+    padding: 5px 7px 5px 7px;
+    border: none;
+    text-decoration: none;
+    font-size: 25px;
+    font-weight: bolder;
+}
+.info:hover{
+    color: #0057d8;
+    cursor: pointer;
+}
+.delete{
+    background-color: rgba(255, 255, 255, 0);
+    padding: 5px 7px 5px 7px;
+    border: none;
+    text-decoration: none;
+    font-size: 25px;
+    font-weight: bolder;
+    color: #FF0000;
+}
+.delete:hover{
+    color: #000000;
+    cursor: pointer;
+}
+.collapsible {
+    height: 0;
+    overflow: hidden;
+    transition: height 4s ease;
+  }
+  
+.collapsible .show {
+height: auto;
+}
+.pagination{
+    margin-top: 10px;
+    text-align: center;
+}

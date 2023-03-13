@@ -1,0 +1,61 @@
+.novo_prod_container{
+    width: 100%;
+    margin-top: 20px;
+}
+.novo_prod_container a{
+    text-decoration: none;
+    margin-left: 35%;
+}
+.novo_prod_container a:hover{
+    text-decoration: underline;
+}
+.novo_prod_container h1{
+    margin-left: 35%;
+}
+.novo_prod_container form{
+    margin: 0 auto;
+    width: fit-content;
+}
+.input_container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.novo_prod_container label{
+    margin: 10px;
+}
+.novo_prod_container input{
+    margin: 10px;
+    border: #d3d9df solid 1px;
+    border-left: none;
+    font-size: medium;
+    text-align: center;
+    width: 200px;
+    min-height: 40px;
+    border-radius: 15px;
+}
+.novo_prod_container select{
+    margin: 10px;
+    border: #d3d9df solid 1px;
+    border-left: none;
+    font-size: medium;
+    text-align: center;
+    width: 200px;
+    min-height: 40px;
+    border-radius: 15px;
+}
+.novo_prod_container button{
+    background-color: #0057d8;
+    color: white;
+    width: 40%;
+    border-radius: 15px;
+    text-align: center;
+    margin: 10px 29% 0 29%;
+    font-size: larger;
+    padding: 7px 0 7px 0;
+}
+.novo_prod_container button:hover{
+    background-color: white;
+    color: #0057d8;
+    cursor: pointer;
+}

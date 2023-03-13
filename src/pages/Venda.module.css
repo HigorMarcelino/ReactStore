@@ -1,0 +1,62 @@
+.venda_container{
+    margin-top: 10px;
+    width: 100%;
+    display: flex;
+    font-size: 16px;
+}
+.produto_container{
+    min-width: 50%;
+    height: 800px;
+    border-right: 1px solid #d3d9df;
+}
+.cupom_container{
+    text-align: center;
+    min-width: 49%;
+}
+.cupom{
+    margin: 20px auto;
+    width: 80%;
+    border-collapse: collapse;
+    border-bottom: #d3d9df solid 1px;
+    text-align: left;
+}
+.cupom th{
+    border-bottom: #d3d9df solid 1px;
+}
+.cupom_container h3{
+    border: 1px solid #d3d9df;
+    border-radius: 15px;
+    width: fit-content;
+    padding: 10px;
+    margin: 30px auto;
+}
+.info{
+    margin: 5px auto;
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+}
+.concluir_venda{
+    position: absolute;
+    bottom: 25px;
+    right: 40px;
+    width: 45%;
+    background-color: #0057d8;
+    color: white;
+    border-radius: 15px;
+    text-align: center;
+    font-size: larger;
+    padding: 7px 0 7px 0;
+}
+.concluir_venda:hover{
+    background-color: white;
+    color: #0057d8;
+    cursor: pointer;
+}
+.total{
+    text-align: right;
+}
+.message{
+    margin: 5px;
+    width: 100%;
+}
