@@ -82,7 +82,8 @@ function TipoForm(){
             <form onSubmit={addtipo}>
                 <div className={styles.input_container}>
                     <label htmlFor="nome">Nome</label>
-                    <input name="nome" type="text" onChange={handleChange} required value={tipo.nome} pattern="^[a-zA-Z0-9].*[a-zA-Z0-9]$"></input>
+                    <input name="nome" type="text" onChange={handleChange} required value={tipo.nome} pattern="^[a-zA-Z0-9][a-zA-Z0-9].*[a-zA-Z0-9]$"
+                    title="Este campo dever ser preenchido com pelo menos 3 caracteres alfanúmericos."></input>
                 </div>
                 <div className={styles.input_container}>
                     <label htmlFor="imposto">Percentual de Imposto</label>
