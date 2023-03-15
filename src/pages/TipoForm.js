@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styles from "./ProdutoForm.module.css";
-
+import Message from '../components/Message';
 function TipoForm(){
     const [tipo, setTipo] = useState({})
     const navigate = useNavigate();
     const {codigo} = useParams();
+    const [tipoMessage, setTipoMessage] = useState('')
+    const[type, setType] = useState()
 
     useEffect(() => {
         if(codigo){
@@ -18,6 +19,9 @@ function TipoForm(){
             })
             .then((resp) => resp.json())
                 .then((data) => {
+                    if(!data){
+                        navigate('/tipos', {state: { message: 'Registro não encontrado.', tipo: 'error'}})
+                    }
                     setTipo(data)
                 })
             .catch((error) => {
@@ -40,10 +44,13 @@ function TipoForm(){
               'Content-Type': 'application/json'
             },
             body: JSON.stringify(tipo),
-          }).then((resp) => resp.json())
-            .then(
-              navigate('/tipos', {state: { message: 'Tipo atualizado com sucesso!'}})
-        ).catch((error) => {
+          }).then((resp) => {
+            if (!resp.ok) {
+                setTipoMessage('O cadastro não pôde ser atualizado. Verifique se já não há um registro com este nome.'); setType('error');
+                throw new Error("HTTP status " + resp.status);
+            }
+            navigate('/tipos', {state: { message: 'Tipo atualizado com sucesso!', tipo: 'success'}})
+        }).catch((error) => {
             console.error(error);
             })
         } else{
@@ -54,10 +61,13 @@ function TipoForm(){
             },
             body: JSON.stringify(tipo),
           })
-          .then((resp) => resp.json())
-          .then(
-              navigate('/tipos', {state: { message: 'Tipo cadastrado com sucesso!'}})
-        ).catch((error) => {
+          .then((resp) => {
+            if (!resp.ok) {
+                setTipoMessage('O cadastro não pôde ser realizado. Verifique se já não há um registro com este nome.'); setType('error');
+                throw new Error("HTTP status " + resp.status);
+            }
+            navigate('/tipos', {state: { message: 'Tipo cadastrado com sucesso!', tipo: 'success'}})
+        }).catch((error) => {
             console.error(error);
             })
         }
@@ -66,6 +76,7 @@ function TipoForm(){
 
     return(
         <div className={styles.novo_prod_container}>
+            {tipoMessage && <Message type={type} msg={tipoMessage} />}
             <a href="/tipos">Voltar</a>
             <h1>Tipo de Produto</h1>
             <form onSubmit={addtipo}>

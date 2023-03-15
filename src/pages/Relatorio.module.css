@@ -59,3 +59,10 @@ height: auto;
     margin-top: 10px;
     text-align: center;
 }
+.table_container h3{
+    border: 1px solid #d3d9df;
+    border-radius: 15px;
+    width: fit-content;
+    padding: 10px;
+    margin: 30px auto;
+}

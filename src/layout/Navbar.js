@@ -9,7 +9,7 @@ function Navbar(){
                     <h1>ᛋᛏᛟᚱᛖ</h1>
                 </li>
                 <li className={styles.item}>
-                    <Link to="/venda">Venda</Link>
+                    <Link to="/">Venda</Link>
                 </li>
                 <li className={styles.item}>
                     <Link to="/produtos">Produtos</Link>

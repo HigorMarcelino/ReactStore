@@ -9,9 +9,10 @@ function Produtos(){
     const [produtoMessage, setProdutoMessage] = useState('')
     const location = useLocation()
     const[type, setType] = useState()
-    let message = ''
+    let message, tipo = ''
     if (location.state) {
         message = location.state.message
+        tipo = location.state.tipo
     }
     const [currentPage, setCurrentPage] = useState(1);
     const displayedProdutos = paginate(produtos, currentPage, 12);
@@ -56,10 +57,12 @@ function Produtos(){
       }
     return(
         <div className={styles.table_container}>
-            {message && <Message type='success' msg={message} />}
+            {message && <Message type={tipo} msg={message} />}
             {produtoMessage && <Message type={type} msg={produtoMessage} />}
             <a href="/produto/novo" className={styles.novo_prod}>Adicionar Produto</a>
-            <table className={styles.table_prod}>
+            {produtos.length > 0 && 
+            <div>
+                <table className={styles.table_prod}>
                 <thead>
                 <tr>
                     <th>Código</th>
@@ -84,18 +87,21 @@ function Produtos(){
                         </tr>
                     ))}
                 </tbody>
-            </table>
-            <div className={styles.pagination}>
-                {produtos.length > 12 && Array.from({ length: totalPages }).map((_, index) => (
-                <button
-                    key={index}
-                    className={currentPage === index + 1 ? styles.active : ''}
-                    onClick={() => setCurrentPage(index + 1)}
-                >
-                    {index + 1}
-                </button>
-                ))}
+                </table>
+                <div className={styles.pagination}>
+                    {produtos.length > 12 && Array.from({ length: totalPages }).map((_, index) => (
+                    <button
+                        key={index}
+                        className={currentPage === index + 1 ? styles.active : ''}
+                        onClick={() => setCurrentPage(index + 1)}
+                    >
+                        {index + 1}
+                    </button>
+                    ))}
+                </div>
             </div>
+            }
+            {produtos.length < 1 && <h3>Ainda não há Produtos cadastrados</h3>}
         </div>
     )
 }

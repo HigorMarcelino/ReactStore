@@ -69,50 +69,54 @@ function Relatorio(){
         <div className={styles.table_container}>
             {message && <Message type={type} msg={message} />}
             {vendaMessage && <Message type={type} msg={vendaMessage} />}
-            <table className={styles.table_vendas}>
-                <thead>
-                <tr>
-                    <th>Código</th>
-                    <th>Data</th>
-                    <th>Total</th>
-                    <th>Ações</th>
-                </tr>
-                </thead>
-                <tbody>
-                {displayedVendas.length > 0 && 
-                    displayedVendas.map((venda, index) => (
-                        <>
-                            <tr key={index} className={styles.content}>
-                                <td className={styles.td_cod}>{venda.codigo}</td>
-                                <td className={styles.td_data}>{venda.data}</td>
-                                <td><span className={styles.real}>R$</span><span>{(venda.total || 0).toFixed(2)}</span></td>
-                                <td>
-                                    <button onClick={() => handleToggleCollapse(index)} className={styles.info}>&#9432;</button>
-                                    <button onClick={() => handleDelete(venda.codigo)} className={styles.delete} >&#10006;</button>
-                                </td>
-                            </tr>
-                            {expandedRows.includes(index) && (
-                                <tr className={styles.collapsible.show}>
-                                    <td colSpan="4" className={styles.show}>
-                                        <VendaInfo id={venda.codigo}/>
+            {vendas.length > 0 &&
+            <div>
+                <table className={styles.table_vendas}>
+                    <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Data</th>
+                        <th>Total</th>
+                        <th>Ações</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {displayedVendas.length > 0 && 
+                        displayedVendas.map((venda, index) => (
+                            <>
+                                <tr key={index} className={styles.content}>
+                                    <td className={styles.td_cod}>{venda.codigo}</td>
+                                    <td className={styles.td_data}>{venda.data}</td>
+                                    <td><span className={styles.real}>R$</span><span>{(venda.total || 0).toFixed(2)}</span></td>
+                                    <td>
+                                        <button onClick={() => handleToggleCollapse(index)} className={styles.info}>&#9432;</button>
+                                        <button onClick={() => handleDelete(venda.codigo)} className={styles.delete} >&#10006;</button>
                                     </td>
                                 </tr>
-                            )}
-                        </>
+                                {expandedRows.includes(index) && (
+                                    <tr className={styles.collapsible.show}>
+                                        <td colSpan="4" className={styles.show}>
+                                            <VendaInfo id={venda.codigo}/>
+                                        </td>
+                                    </tr>
+                                )}
+                            </>
+                        ))}
+                    </tbody>
+                </table>
+                <div className={styles.pagination}>
+                    {vendas.length > 6 && Array.from({ length: totalPages }).map((_, index) => (
+                    <button
+                        key={index}
+                        className={currentPage === index + 1 ? styles.active : ''}
+                        onClick={() => setCurrentPage(index + 1)}
+                    >
+                        {index + 1}
+                    </button>
                     ))}
-                </tbody>
-            </table>
-            <div className={styles.pagination}>
-                {vendas.length > 6 && Array.from({ length: totalPages }).map((_, index) => (
-                <button
-                    key={index}
-                    className={currentPage === index + 1 ? styles.active : ''}
-                    onClick={() => setCurrentPage(index + 1)}
-                >
-                    {index + 1}
-                </button>
-                ))}
-            </div>
+                </div>
+            </div>}
+            {vendas.length < 1 && <h3>Não há registro de vendas.</h3>}
         </div>
     )
 }

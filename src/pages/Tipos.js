@@ -9,9 +9,10 @@ function Tipos(){
     const [tipoMessage, setTipoMessage] = useState('')
     const location = useLocation()
     const[type, setType] = useState()
-    let message = ''
+    let message, tipo = ''
     if (location.state) {
         message = location.state.message
+        tipo = location.state.tipo
     }
     const [currentPage, setCurrentPage] = useState(1);
     const displayedTipos = paginate(tipos, currentPage, 12);
@@ -33,17 +34,25 @@ function Tipos(){
     }, [])
 
     const handleDelete = (codigo) => {
-    if(window.confirm("Desaja deletar este registro?")){
+    if(window.confirm("Deseja deletar este registro?")){
+        setTipoMessage('');
         fetch('http://localhost:8080/php/api/Tipo/delete/?cod='+codigo, {
             method: 'DELETE',
             headers: {
             'Content-Type': 'application/json',
             }})
-            .then((resp) => resp.json())
+            .then((resp) => {
+                if (!resp.ok) {
+                    setTipoMessage('Ocorreu um erro. Verifique se este tipo não está associado a um produto.'); setType('error');
+                    throw new Error("HTTP status " + resp.status);
+                }
+                return resp.json();
+            })
             .then((data) => {
+                console.log(data)
                 setTipos(displayedTipos.filter((tipo) => tipo.codigo !== codigo))
                 setTipoMessage('Tipo removido com sucesso!'); setType('success')
-            }).catch((err) => {console.log(err); setTipoMessage('Ocorreu um erro. Verifique se este registro não está sendo referenciado por outro.'); setType('error')})
+            }).catch((err) => {console.log(err);})
     }};
     function paginate(items, currentPage, itemsPerPage) {
         const startIndex = (currentPage - 1) * itemsPerPage;
@@ -53,44 +62,48 @@ function Tipos(){
       }
     return(
         <div className={styles.table_container}>
-        {message && <Message type='success' msg={message} />}
+        {message && <Message type={tipo} msg={message} />}
         {tipoMessage && <Message type={type} msg={tipoMessage} />}
         <a href="/tipo/novo" className={styles.novo_prod}>Adicionar Tipo</a>
-        <table className={styles.table_prod}>
-            <thead>
-            <tr>
-                <th>Código</th>
-                <th>Nome</th>
-                <th>Percentual de Imposto</th>
-                <th>Ações</th>
-            </tr>
-            </thead>
-            <tbody>
-            {displayedTipos.length > 0 && 
-                displayedTipos.map((tipo) => (
-                    <tr key={tipo.codigo} className={styles.content}>
-                        <td className={styles.td_cod}>{tipo.codigo}</td>
-                        <td className={styles.td_nome}>{tipo.nome}</td>
-                        <td>{tipo.percentual_imposto}%</td>
-                        <td>
-                            <a className={styles.edit} href={"/tipo/editar/"+tipo.codigo}>&#9998;</a>
-                            <button onClick={() => handleDelete(tipo.codigo)} className={styles.delete} >&#10006;</button>
-                        </td>
-                    </tr>
+        {tipos.length > 0 && 
+        <div>
+            <table className={styles.table_prod}>
+                <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Nome</th>
+                    <th>Percentual de Imposto</th>
+                    <th>Ações</th>
+                </tr>
+                </thead>
+                <tbody>
+                {displayedTipos.length > 0 && 
+                    displayedTipos.map((tipo) => (
+                        <tr key={tipo.codigo} className={styles.content}>
+                            <td className={styles.td_cod}>{tipo.codigo}</td>
+                            <td className={styles.td_nome}>{tipo.nome}</td>
+                            <td>{tipo.percentual_imposto}%</td>
+                            <td>
+                                <a className={styles.edit} href={"/tipo/editar/"+tipo.codigo}>&#9998;</a>
+                                <button onClick={() => handleDelete(tipo.codigo)} className={styles.delete} >&#10006;</button>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+            <div className={styles.pagination}>
+                {tipos.length > 12 && Array.from({ length: totalPages }).map((_, index) => (
+                <button
+                    key={index}
+                    className={currentPage === index + 1 ? styles.active : ''}
+                    onClick={() => setCurrentPage(index + 1)}
+                >
+                    {index + 1}
+                </button>
                 ))}
-            </tbody>
-        </table>
-        <div className={styles.pagination}>
-            {tipos.length > 12 && Array.from({ length: totalPages }).map((_, index) => (
-            <button
-                key={index}
-                className={currentPage === index + 1 ? styles.active : ''}
-                onClick={() => setCurrentPage(index + 1)}
-            >
-                {index + 1}
-            </button>
-            ))}
-        </div>
+            </div>
+        </div>}
+        {tipos.length < 1 && <h3>Ainda não há Tipos de Produto cadastrados</h3>}
         </div>
     )
 }

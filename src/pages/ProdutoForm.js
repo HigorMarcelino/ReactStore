@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, useLocation, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import Message from '../components/Message';
 import styles from "./ProdutoForm.module.css";
 
@@ -9,12 +9,8 @@ function ProdutoForm(){
     const [tipos, setTipos] = useState([]);
     const navigate = useNavigate();
     const {codigo} = useParams();
+    const [produtoMessage, setProdutoMessage] = useState('')
     const[type, setType] = useState()
-    const location = useLocation()
-    let message = ''
-    if (location.state) {
-        message = location.state.message
-    }
 
     useEffect(() => {
         if(codigo){
@@ -26,6 +22,9 @@ function ProdutoForm(){
             })
             .then((resp) => resp.json())
                 .then((data) => {
+                    if(!data){
+                        navigate('/produtos', {state: { message: 'Registro não encontrado.', tipo: 'error'}})
+                    }
                     setProduto(data)
                 })
             .catch((error) => {
@@ -63,10 +62,14 @@ function ProdutoForm(){
               'Content-Type': 'application/json'
             },
             body: JSON.stringify(produto),
-          }).then((resp) => resp.json())
-            .then((data) =>
-                navigate('/produtos', {state: { message: 'Produto atualizado com sucesso!', type: 'success'}})
-        ).catch((error) => {console.error(error); message = 'Ocorreu um erro.'; setType('error')})
+          }).then((resp) => {
+            if (!resp.ok) {
+                setProdutoMessage('O cadastro não pôde ser atualizado. Verifique se já não há um registro com este nome.'); setType('error');
+                throw new Error("HTTP status " + resp.status);
+            }
+            navigate('/produtos', {state: { message: 'Produto atualizado com sucesso!', tipo: 'success'}})
+          })
+            .catch((error) => console.error(error))
         } else{
             fetch('http://localhost:8080/php/api/Produto/create', {
             method: 'POST',
@@ -75,16 +78,22 @@ function ProdutoForm(){
             },
             body: JSON.stringify(produto),
           })
-            .then(
-              navigate('/produtos', {state: { message: 'Produto cadastrado com sucesso!'}})
-        ).catch((error) => {console.error(error); message = 'Ocorreu um erro.'; setType('error')})
+          .then((resp) => {
+            if (!resp.ok) {
+                setProdutoMessage('O cadastro não pôde ser realizado. Verifique se já não há um registro com este nome.'); setType('error');
+                throw new Error("HTTP status " + resp.status);
+            }
+            navigate('/produtos', {state: { message: 'Produto cadastrado com sucesso!', tipo: 'success'}})
+          })
+            .catch((error) => console.error(error))
         }
         
     }
 
     return(
         <div className={styles.novo_prod_container}>
-            {message && <Message type={type} msg={message} />}
+            {tipos.length < 1 && <Message type='error' msg='Nenhum Tipo de Produto foi encontrado. Não será possível cadastrar um novo Produto.'/>}
+            {produtoMessage && <Message type={type} msg={produtoMessage} />}
             <a href="/produtos">Voltar</a>
             <h1>Produto</h1>
             <form onSubmit={addProduto}>

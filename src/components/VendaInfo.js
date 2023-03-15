@@ -42,8 +42,8 @@ function VendaInfo({id}){
                                 <tr key={item.produto_codigo + Math.random(1000) } className={styles.content}>
                                     <td>{item.produto} - {item.nome}</td>
                                     <td>{item.quantidade}</td>
-                                    <td className={styles.end}>R$ {item.preco.toFixed(2)}</td>
-                                    <td className={styles.end}>R$ {item.item_total.toFixed(2)}</td>
+                                    <td className={styles.end}>R$ {item.preco}</td>
+                                    <td className={styles.end}>R$ {item.item_total}</td>
                                 </tr>
                             ))}
                         </tbody>
