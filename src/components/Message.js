@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 
 import styles from './Message.module.css'
 
+//este componente será usado como meio de notificação para o usuário informando erros e sucessos das ações
 function Message({ type, msg }) {
   const [visible, setVisible] = useState(false)
 

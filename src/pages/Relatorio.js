@@ -4,6 +4,7 @@ import VendaInfo from "../components/VendaInfo";
 import Message from '../components/Message';
 import { useLocation } from 'react-router-dom';
 
+//pagina de display de todas as vendas realizadas, com acesso à remoção e display dos produtos associados
 function Relatorio(){
 
     const [vendas, setVendas] = useState([]);
@@ -19,6 +20,7 @@ function Relatorio(){
     const displayedVendas = paginate(vendas, currentPage, 6);
     const totalPages = Math.ceil(vendas.length / 6);
 
+    //carrega todas as vendas
     useEffect(() => {
         fetch('http://localhost:8080/php/api/Venda/getAll', {
         method: 'GET',
@@ -34,7 +36,7 @@ function Relatorio(){
             console.error(error);
             })
     }, [])
-
+    //colapsa ou expande as informações da venda selecionada
     const handleToggleCollapse = (index) => {
         const expandedRowIndex = expandedRows.indexOf(index);
         const newExpandedRows = [...expandedRows];
@@ -45,6 +47,7 @@ function Relatorio(){
         }
         setExpandedRows(newExpandedRows);
       };
+    //exclui a venda selecionada
     const handleDelete = (codigo) => {
         if(window.confirm("Desaje deletar este registro?")){
             fetch('http://localhost:8080/php/api/Venda/delete/?cod='+codigo, {
@@ -59,6 +62,7 @@ function Relatorio(){
                 }).catch((err) => {console.log(err); setVendaMessage('Ocorreu um erro.'); setType('error')})
         }
     };
+    //secciona os dados para deixar a página mais palatável
     function paginate(items, currentPage, itemsPerPage) {
         const startIndex = (currentPage - 1) * itemsPerPage;
         const endIndex = startIndex + itemsPerPage;
@@ -71,6 +75,7 @@ function Relatorio(){
             {vendaMessage && <Message type={type} msg={vendaMessage} />}
             {vendas.length > 0 &&
             <div>
+                {/*Tabela de disposição das vendas */}
                 <table className={styles.table_vendas}>
                     <thead>
                     <tr>
@@ -104,6 +109,7 @@ function Relatorio(){
                         ))}
                     </tbody>
                 </table>
+                {/*Menu de paginação */}
                 <div className={styles.pagination}>
                     {vendas.length > 6 && Array.from({ length: totalPages }).map((_, index) => (
                     <button

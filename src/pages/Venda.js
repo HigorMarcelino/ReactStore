@@ -19,6 +19,7 @@ function Venda() {
     const [currentPage, setCurrentPage] = useState(1);
     const displayedCupom = paginate(cupom, currentPage, 12);
     const totalPages = Math.ceil(cupom.length / 12);
+
     //recebe o item do componente SelectProduto e adiciona ao cupom
     function addItem(item){
         setCupom([...cupom, item]);
@@ -31,7 +32,7 @@ function Venda() {
         setSaldo(novoSaldo);
 
     }
-
+    //envia os dados para a database
     const enviarCupom = () => {
     
         const pedido = {
@@ -54,6 +55,7 @@ function Venda() {
         setSaldo(0);
         setImposto(0);
     }
+    //secciona os dados do cupom para deixar a página mais palatável
     function paginate(items, currentPage, itemsPerPage) {
         const startIndex = (currentPage - 1) * itemsPerPage;
         const endIndex = startIndex + itemsPerPage;
@@ -68,11 +70,12 @@ function Venda() {
             {cupomMessage && <Message type={type} msg={cupomMessage} />}
         </div>
         <div className={styles.venda_container}>
-            <div className={styles.produto_container}> 
+            <div className={styles.produto_container}>
                 <SelectProduto addItem={addItem}/>
             </div>
             <div className={styles.cupom_container}>
-                {cupom.length > 0 &&
+                {//cupom
+                cupom.length > 0 &&
                 <table className={styles.cupom}>
                     <thead>
                         <tr>
@@ -108,7 +111,8 @@ function Venda() {
                     </div>
                 </div>
                 }
-                {cupom.length > 15 &&
+                {//menu de paginação
+                cupom.length > 15 &&
                 <div className={styles.pagination}>
                     {Array.from({ length: totalPages }).map((_, index) => (
                     <button

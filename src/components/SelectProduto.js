@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useRef } from "react";
 import styles from "./SelectProduto.module.css";
+
+//área de seleção dos produtos que podem ser adicionados às vendas 
 function ProdutoForm({addItem}) {
 
     const [produtos, setProdutos] = useState([]);

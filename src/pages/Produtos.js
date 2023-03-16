@@ -3,6 +3,7 @@ import styles from "./Produtos.module.css";
 import { useLocation } from 'react-router-dom';
 import Message from '../components/Message';
 
+//pagina de display de todos os produtos cadastrados, com acesso à edição, remoção e adição de novos produtos
 function Produtos(){
 
     const [produtos, setProdutos] = useState([]);
@@ -17,7 +18,8 @@ function Produtos(){
     const [currentPage, setCurrentPage] = useState(1);
     const displayedProdutos = paginate(produtos, currentPage, 12);
     const totalPages = Math.ceil(produtos.length / 12);
-
+    
+    //carregando todos os produtos
     useEffect(() => {
         fetch('http://localhost:8080/php/api/Produto/getAll', {
         method: 'GET',
@@ -33,7 +35,7 @@ function Produtos(){
             console.error(error);
             })
     }, [])
-
+    //excluindo o produto selecionado
     const handleDelete = (codigo) => {
         if(window.confirm("Deseja deletar este registro?")){
             fetch('http://localhost:8080/php/api/Produto/delete/?cod='+codigo, {
@@ -49,12 +51,14 @@ function Produtos(){
                 }).catch((err) => {console.error(err); setProdutoMessage('Ocorreu um erro.'); setType('error')})
         }
     };
+    //secciona os dados para deixar a página mais palatável
     function paginate(items, currentPage, itemsPerPage) {
         const startIndex = (currentPage - 1) * itemsPerPage;
         const endIndex = startIndex + itemsPerPage;
       
         return items.slice(startIndex, endIndex);
       }
+
     return(
         <div className={styles.table_container}>
             {message && <Message type={tipo} msg={message} />}
@@ -62,6 +66,7 @@ function Produtos(){
             <a href="/produto/novo" className={styles.novo_prod}>Adicionar Produto</a>
             {produtos.length > 0 && 
             <div>
+                {/*Tabela de disposição dos produtos */}
                 <table className={styles.table_prod}>
                 <thead>
                 <tr>
@@ -88,6 +93,7 @@ function Produtos(){
                     ))}
                 </tbody>
                 </table>
+                {/*Menu de paginação */}
                 <div className={styles.pagination}>
                     {produtos.length > 12 && Array.from({ length: totalPages }).map((_, index) => (
                     <button

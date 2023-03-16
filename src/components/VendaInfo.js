@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-
 import styles from "./VendaInfo.module.css";
+
+//card de informações acessado através do botão 'i' na página de relatório
 function VendaInfo({id}){
     
     const [produtos, setProdutos] = useState([]);

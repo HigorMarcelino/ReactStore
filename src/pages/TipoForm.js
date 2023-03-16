@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from 'react-router-dom';
 import styles from "./ProdutoForm.module.css";
 import Message from '../components/Message';
+
+//formuário de edição/cadastro de tipo
 function TipoForm(){
     const [tipo, setTipo] = useState({})
     const navigate = useNavigate();
@@ -10,6 +12,8 @@ function TipoForm(){
     const[type, setType] = useState()
 
     useEffect(() => {
+        //caso o tipo já tenha um id, seus dados serão carregados para possibilitar a edição,
+        //caso não, o formulário aparecerá em branco para que um novo tipo seja cadastrado
         if(codigo){
             fetch('http://localhost:8080/php/api/Tipo/getById/?cod='+codigo, {
             method: 'GET',
@@ -29,11 +33,11 @@ function TipoForm(){
                 })
         }
     }, [])
-
+    //alterando os dados do tipo conforme hajam mudanças nos inputs
     function handleChange(e) {
         setTipo({ ...tipo, [e.target.name]: e.target.value })
     }
-
+    //enviando os dados para seus respctivos endpoints nos casos de update e create
     const addtipo = (e) => {
         e.preventDefault()
         if(tipo.codigo){

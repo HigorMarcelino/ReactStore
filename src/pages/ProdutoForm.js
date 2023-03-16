@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import Message from '../components/Message';
 import styles from "./ProdutoForm.module.css";
 
+//formuário de edição/cadastro de produto
 function ProdutoForm(){
 
     const [produto, setProduto] = useState({})
@@ -13,6 +14,8 @@ function ProdutoForm(){
     const[type, setType] = useState()
 
     useEffect(() => {
+        //caso o produto já tenha um id, seus dados serão carregados para possibilitar a edição,
+        //caso não, o formulário aparecerá em branco para que um novo produto seja cadastrado
         if(codigo){
             fetch('http://localhost:8080/php/api/Produto/getById/?cod='+codigo, {
             method: 'GET',
@@ -32,7 +35,7 @@ function ProdutoForm(){
                 })
         }
     }, [])
-
+    //carregando todos os tipos de produto 
     useEffect(() => {
         fetch('http://localhost:8080/php/api/Tipo/getAll', {
         method: 'GET',
@@ -48,11 +51,11 @@ function ProdutoForm(){
             console.error(error);
             })
     }, [])
-
+    //alterando os dados do produto conforme hajam mudanças nos inputs
     function handleChange(e) {
         setProduto({ ...produto, [e.target.name]: e.target.value })
     }
-
+    //enviando os dados para seus respctivos endpoints nos casos de update e create
     const addProduto = (e) => {
         e.preventDefault()
         if(produto.codigo){
