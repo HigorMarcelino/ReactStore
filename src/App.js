@@ -1,5 +1,5 @@
 import './App.css';
-import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
+import {BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom'
 import Venda from './pages/Venda';
 import Produtos from './pages/Produtos';
 import Tipos from './pages/Tipos';
@@ -23,6 +23,8 @@ function App() {
             <Route exact path="/produto/editar/:codigo" element={<ProdutoForm/>}/>
             <Route exact path="/tipo/novo" element={<TipoForm/>}/>
             <Route exact path="/tipo/editar/:codigo" element={<TipoForm/>}/>
+
+            <Route path="*" element={<Navigate to="/" state={{message: 'Erro 404: Não encontrado.', tipo: 'error'}} /> } />
         </Routes>
 
     </Router>

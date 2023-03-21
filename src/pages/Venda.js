@@ -12,9 +12,10 @@ function Venda() {
     const [cupomMessage, setCupomMessage] = useState('')
     const[type, setType] = useState()
     const location = useLocation()
-    let message = ''
+    let message, tipo = ''
     if (location.state) {
         message = location.state.message
+        tipo = location.state.tipo
     }
     const [currentPage, setCurrentPage] = useState(1);
     const displayedCupom = paginate(cupom, currentPage, 12);
@@ -66,7 +67,7 @@ function Venda() {
     return(
         <>
         <div className={styles.message}>
-            {message && <Message type={type} msg={message} />}
+            {message && <Message type={tipo} msg={message} />}
             {cupomMessage && <Message type={type} msg={cupomMessage} />}
         </div>
         <div className={styles.venda_container}>
